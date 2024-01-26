@@ -17,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
             "LOWER(t.email) LIKE LOWER(:search) OR " +
             "LOWER(t.password) LIKE LOWER(:search)")
     List<User> findByFilter(@Param("search") String search);
+    User findByUsername(String username);
 }

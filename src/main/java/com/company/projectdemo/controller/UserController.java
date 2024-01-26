@@ -2,8 +2,7 @@ package com.company.projectdemo.controller;
 
 import com.company.projectdemo.dto.ResponseWrapper;
 import com.company.projectdemo.dto.UserDTO;
-import com.company.projectdemo.entity.User;
-import com.company.projectdemo.repository.filter.SearchCriteria;
+import com.company.projectdemo.repository.filter.FilterCriteria;
 import com.company.projectdemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<ResponseWrapper> createUser(@RequestBody UserDTO user) {
         userService.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("user successfully created",user, HttpStatus.CREATED));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("user successfully created", user, HttpStatus.CREATED));
     }
 
     //get
@@ -40,7 +39,7 @@ public class UserController {
     @PutMapping
     public ResponseEntity<ResponseWrapper> updateUser(@RequestBody UserDTO userDTO) {
         userService.update(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("user successfully updated", userDTO,HttpStatus.CREATED));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("user successfully updated", userDTO, HttpStatus.CREATED));
     }
 
     //filter
@@ -49,15 +48,16 @@ public class UserController {
         List<UserDTO> user = userService.findByFilter(search);
         return ResponseEntity.ok(new ResponseWrapper("user successfully retrieved", user, HttpStatus.OK));
     }
+
     @GetMapping("/?key=firstname&operation=equals&value=Ahmet\n")
     public ResponseEntity<ResponseWrapper> getCards(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "operation", required = false) String operation,
             @RequestParam(value = "value", required = false) String value) {
 
-        SearchCriteria criteria = new SearchCriteria(key, operation, value);
+        FilterCriteria criteria = new FilterCriteria(key, operation, value);
         List<UserDTO> cards = userService.getUsersBySpecification(criteria);
-        return ResponseEntity.ok( new ResponseWrapper("user successfully retrieved", cards, HttpStatus.OK));
+        return ResponseEntity.ok(new ResponseWrapper("user successfully retrieved", cards, HttpStatus.OK));
     }
 
 

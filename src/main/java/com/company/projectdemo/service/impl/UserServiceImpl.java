@@ -5,6 +5,7 @@ import com.company.projectdemo.entity.LogHistory;
 import com.company.projectdemo.entity.User;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.UserRepository;
+import com.company.projectdemo.repository.filter.FilterCriteria;
 import com.company.projectdemo.repository.filter.SearchCriteria;
 import com.company.projectdemo.service.LogService;
 import com.company.projectdemo.service.UserService;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
         log.setChangedBy(user.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
+
         userRepository.save(user);
 
     }
@@ -96,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
     return null;
     }
-    public List<UserDTO> getUsersBySpecification(SearchCriteria criteria) {
+    public List<UserDTO> getUsersBySpecification(FilterCriteria criteria) {
         GenericSpecification<User> spec = new GenericSpecification<>(criteria);
         List<User> userList = userRepository.findAll(spec);
         return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
