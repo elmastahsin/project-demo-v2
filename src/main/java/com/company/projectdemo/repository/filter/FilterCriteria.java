@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchCriteria {
+public class FilterCriteria {
     private String key;
     private String operation;
     private Object value;

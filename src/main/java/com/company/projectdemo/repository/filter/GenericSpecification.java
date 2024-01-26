@@ -3,11 +3,12 @@ package com.company.projectdemo.repository.filter;
 import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.*;
 
+
 public class GenericSpecification<T> implements Specification<T> {
 
-    private SearchCriteria criteria;
+    private final FilterCriteria criteria;
 
-    public GenericSpecification(SearchCriteria criteria) {
+    public GenericSpecification(FilterCriteria criteria) {
         this.criteria = criteria;
     }
 
