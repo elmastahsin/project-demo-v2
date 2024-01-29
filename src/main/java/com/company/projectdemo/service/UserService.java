@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 public interface UserService extends CrudService<UserDTO, Long> {
-    List<UserDTO> listAllUsers();
+    List<UserDTO> listAll();
 
 
     List<UserDTO> findByFilter(String search);

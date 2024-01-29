@@ -4,13 +4,20 @@ package com.company.projectdemo.controller;
 import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.dto.ResponseWrapper;
 import com.company.projectdemo.dto.CardDTO;
+import com.company.projectdemo.dto.CardDTO;
+import com.company.projectdemo.entity.Card;
+import com.company.projectdemo.repository.filter.FilterCriteria;
+import com.company.projectdemo.repository.filter.GenericSpecification;
 import com.company.projectdemo.service.CardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/card")
@@ -47,6 +54,20 @@ public class CardController {
         List<CardDTO> card = cardService.findByFilter(search);
         return ResponseEntity.ok(new ResponseWrapper("card successfully retrieved", card, HttpStatus.OK));
     }
+    @GetMapping("/filter")
+    public ResponseEntity<ResponseWrapper> getCards(
+            @RequestParam Map<String, String> allParams) {
+        //all entries should be trimmed
 
+        List<FilterCriteria> criteriaList = allParams.entrySet().stream()
+                .map(entry -> new FilterCriteria(entry.getKey(), "equals", entry.getValue()))
+                .collect(Collectors.toList());
+
+        Specification<Card> spec = new GenericSpecification<>(criteriaList);
+
+        List<CardDTO> cards = cardService.getCardsBySpecification(spec);
+        if(!cards.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("card successfully filtered", cards, HttpStatus.OK));
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("card not found", HttpStatus.NOT_FOUND));
+    }
 
 }

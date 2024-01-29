@@ -12,20 +12,20 @@ import java.math.BigInteger;
 public class TransactionDTO {
     private Long id;
     private String cardno;
-    private Double amountmoney;
-    private BigInteger transactiontype;
-    private int vattype;
+    private Integer amountmoney;
+    private Integer transactiontype;
+    private Integer vattype;
     private String act;
-    private BigInteger uid;
-    private String ip;
-    private Long bid;
-    private String tuniquenumber;
-    private Long mediatorid;
-    private String terminalid;
-    private Long storeid;
-    private Long refundid;
-    private String note;
-    private String saletype;
+    private Integer uid;
+//    private String ip;
+//    private Long bid;
+//    private String tuniquenumber;
+//    private Long mediatorid;
+//    private String terminalid;
+//    private Long storeid;
+//    private Long refundid;
+//    private String note;
+//    private String saletype;
 
 
 }

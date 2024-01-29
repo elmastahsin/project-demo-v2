@@ -6,5 +6,6 @@ import com.company.projectdemo.entity.LogHistory;
 public interface LogService {
 
    void save(LogHistory log);
+//   void update(LogHistory log);
 
 }

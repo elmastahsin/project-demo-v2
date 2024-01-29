@@ -5,8 +5,6 @@ import com.company.projectdemo.entity.LogHistory;
 import com.company.projectdemo.entity.User;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.UserRepository;
-import com.company.projectdemo.repository.filter.FilterCriteria;
-import com.company.projectdemo.repository.filter.GenericSpecification;
 import com.company.projectdemo.service.LogService;
 import com.company.projectdemo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,42 +30,44 @@ public class UserServiceImpl implements UserService {
     public void save(UserDTO userDTO) {
         User user = mapper.convert(userDTO, new User());
 
-        Map<String, Object> changedFields = EntityComparator.findChangedFields(new User(), user);
+            Map<String, Object> changedFields = EntityComparator.findChangedFields(new User(), user);
+            if (changedFields.isEmpty()) return;
 
-        LogHistory log = new LogHistory();
-        log.setTableName("users");
-        log.setOperation("save");
-        log.setChangedColumn(changedFields);
-        log.setChangedBy(user.getName());
-        log.setChangedAt(LocalDateTime.now());
-        logService.save(log);
+            LogHistory log = new LogHistory();
+            log.setTableName("users");
+            log.setOperation("update");
+            log.setChangedColumn(changedFields);
+            log.setChangedBy(user.getUsername());
+            log.setChangedAt(LocalDateTime.now());
+            logService.save(log);
+            userRepository.save(user);
 
-        userRepository.save(user);
 
     }
 
+
     @Override
     public void update(UserDTO userDTO) {
-        //if user has id, then update
-        //if user has not id then save
 
         User userToUpdate = mapper.convert(userDTO, new User());
         User savedUser = userRepository.findById(userToUpdate.getId()).get();
 
-        Map<String, Object> changedFields = EntityComparator.findChangedFields(savedUser, userToUpdate);
 
-        LogHistory log = new LogHistory();
-        if (changedFields.equals("address")) log.setTableName("address");
 
-        else log.setTableName("users");
-        log.setOperation("update");
-        log.setChangedColumn(changedFields);
-        log.setChangedBy(savedUser.getName());
-        log.setChangedAt(LocalDateTime.now());
-        logService.save(log);
-        userRepository.save(userToUpdate);
+            Map<String, Object> changedFields = EntityComparator.findChangedFields(savedUser, userToUpdate);
+            if (changedFields.isEmpty()) return;
+            LogHistory log = new LogHistory();
+            log.setTableName("users");
+            log.setOperation("update");
+            log.setChangedColumn(changedFields);
+            log.setChangedBy(savedUser.getUsername());
+            log.setChangedAt(LocalDateTime.now());
+            logService.save(log);
+            userRepository.save(userToUpdate);
+
+
+
     }
-
 
     @Override
     public boolean isExist(UserDTO userDTO) {
@@ -85,20 +85,21 @@ public class UserServiceImpl implements UserService {
         return user.stream().map(entity -> mapper.convert(entity, new UserDTO())).collect(Collectors.toList());
     }
 
+
+
+    @Override
+    public List<UserDTO> findByFilter(String search) {
+        List<User> userList = userRepository.findByFilter(search);
+
+        return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
+    }
+
     @Override
     public List<UserDTO> listAll() {
         List<User> userList = userRepository.findAll();
         return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
     }
 
-    @Override
-    public List<UserDTO> findByFilter(String search) {
-//        List<User> userList = userRepository.findByFilter(search);
-
-//        return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
-
-        return null;
-    }
     public List<UserDTO> getUsersBySpecification(Specification<User> spec) {
         List<User> users = userRepository.findAll(spec);
         if (!users.isEmpty())
@@ -107,8 +108,3 @@ public class UserServiceImpl implements UserService {
 
     }
 }
-
-
-
-
-

@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.lang.*;
+
+
 
 @Getter
 @Setter
@@ -19,20 +19,20 @@ import java.math.BigInteger;
 public class Transaction extends BaseEntity{
 
     private String cardno;
-    private Double amountmoney;
-    private BigInteger transactiontype;
-    private int vattype;
+    private Integer amountmoney;
+    private Integer transactiontype;
+    private Integer vattype;
     private String act;
-    private BigInteger uid;
-    private String ip;
-    private Long bid;
-    private String tuniquenumber;
-    private Long mediatorid;
-    private String terminalid;
-    private Long storeid;
-    private Long refundid;
-    private String note;
-    private String saletype;
+    private Integer uid;
+//    private String ip;
+//    private Long bid;
+//    private String tuniquenumber;
+//    private Long mediatorid;
+//    private String terminalid;
+//    private Long storeid;
+//    private Long refundid;
+//    private String note;
+//    private String saletype;
 
 
 

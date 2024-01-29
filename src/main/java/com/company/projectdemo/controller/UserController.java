@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
-
 
     @PostMapping
     public ResponseEntity<ResponseWrapper> createUser(@RequestBody UserDTO user) {
@@ -69,6 +69,7 @@ public class UserController {
         if(!users.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("user successfully filtered", users, HttpStatus.OK));
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("user not found", HttpStatus.NOT_FOUND));
     }
+
 
 
 }

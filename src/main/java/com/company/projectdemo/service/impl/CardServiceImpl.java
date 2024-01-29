@@ -1,16 +1,20 @@
 package com.company.projectdemo.service.impl;
 
 import com.company.projectdemo.dto.CardDTO;
+import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.entity.LogHistory;
+import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.CardRepository;
 import com.company.projectdemo.service.CardService;
 import com.company.projectdemo.service.LogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,16 +42,17 @@ public class CardServiceImpl implements CardService {
     @Override
     public void save(CardDTO cardDTO) {
         Card card = mapper.convert(cardDTO, new Card());
-        Card savedCard = cardRepository.save(card);
+
         LogHistory log = new LogHistory();
-        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Card(), savedCard);
+//        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Card(), card);
 
         log.setTableName("cards");
         log.setOperation("create");
-        log.setChangedColumn(changedFields);
-        log.setChangedBy(savedCard.getName());
+//        log.setChangedColumn(changedFields);
+        log.setChangedBy(card.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
+       cardRepository.save(card);
     }
 
     @Override
@@ -88,6 +93,13 @@ public class CardServiceImpl implements CardService {
         List<Card> cardList = cardRepository.findAll();
         return cardList.stream().map(card -> mapper.convert(card, new CardDTO())).collect(Collectors.toList());
     }
+    @Override
+    public List<CardDTO> getCardsBySpecification(Specification<Card> spec) {
+        List<Card> cards = cardRepository.findAll(spec);
+        if (!cards.isEmpty())
+            return cards.stream().map(card -> mapper.convert(card, new CardDTO())).collect(Collectors.toList());
+        else return Collections.emptyList();
 
+    }
 
 }

@@ -1,20 +1,25 @@
 package com.company.projectdemo.service.impl;
 
 import com.company.projectdemo.dto.TransactionDTO;
+import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.LogHistory;
+import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.TransactionRepository;
 import com.company.projectdemo.service.LogService;
 import com.company.projectdemo.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.lang.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +33,12 @@ public class TransactionServiceImpl implements TransactionService {
     public void save(TransactionDTO transactionDTO) {
         Transaction transaction = mapper.convert(transactionDTO, new Transaction());
 
-       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
+//       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
 
         LogHistory log = new LogHistory();
         log.setTableName("transactions");
         log.setOperation("save");
-        log.setChangedColumn(changedFields);
+//        log.setChangedColumn("changedFields");
         log.setChangedBy(transaction.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
@@ -87,6 +92,14 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> transactionList = transactionRepository.findByFilter(search);
 
         return transactionList.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
+    }
+    @Override
+    public List<TransactionDTO> getTransactionsBySpecification(Specification<Transaction> spec) {
+        List<Transaction> transactions = transactionRepository.findAll(spec);
+        if (!transactions.isEmpty())
+            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
+        else return Collections.emptyList();
+
     }
 
 
