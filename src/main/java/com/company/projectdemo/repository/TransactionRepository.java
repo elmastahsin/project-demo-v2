@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
     @Query("SELECT t FROM Transaction t WHERE " +
-            "LOWER(t.cardno) LIKE LOWER(:search) OR " +
+            "LOWER(t.cardid) LIKE LOWER(:search) OR " +
             "LOWER(t.amountmoney) LIKE LOWER(:search) OR " +
             "LOWER(t.createuserId) LIKE LOWER(:search) OR " +
             "LOWER(t.transactiontype) LIKE LOWER(:search)")

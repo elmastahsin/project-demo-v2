@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 //@Where(clause = "is_deleted=false")
 
 public class Card extends BaseEntity {
+
 
     private String cardno;
     private Double amountfoodmoney;

@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.lang.*;
 
+import javax.persistence.*;
 
 
 @Getter
@@ -16,9 +14,12 @@ import java.lang.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "transactions")
-public class Transaction extends BaseEntity{
+public class Transaction extends BaseEntity {
 
-    private String cardno;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_id")
+    private Card cardid;
+//    private String cardno;
     private Integer amountmoney;
     private Integer transactiontype;
     private Integer vattype;
@@ -33,9 +34,6 @@ public class Transaction extends BaseEntity{
 //    private Long refundid;
 //    private String note;
 //    private String saletype;
-
-
-
 
 
 }

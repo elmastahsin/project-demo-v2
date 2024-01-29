@@ -1,5 +1,6 @@
 package com.company.projectdemo.dto;
 
+import com.company.projectdemo.entity.Card;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 public class TransactionDTO {
     private Long id;
-    private String cardno;
+    private Card cardid;
     private Integer amountmoney;
     private Integer transactiontype;
     private Integer vattype;
