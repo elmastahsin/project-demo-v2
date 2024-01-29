@@ -6,14 +6,15 @@ import com.company.projectdemo.entity.User;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.UserRepository;
 import com.company.projectdemo.repository.filter.FilterCriteria;
-import com.company.projectdemo.repository.filter.SearchCriteria;
+import com.company.projectdemo.repository.filter.GenericSpecification;
 import com.company.projectdemo.service.LogService;
 import com.company.projectdemo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import com.company.projectdemo.repository.filter.GenericSpecification;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -96,12 +97,14 @@ public class UserServiceImpl implements UserService {
 
 //        return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
 
-    return null;
+        return null;
     }
-    public List<UserDTO> getUsersBySpecification(FilterCriteria criteria) {
-        GenericSpecification<User> spec = new GenericSpecification<>(criteria);
-        List<User> userList = userRepository.findAll(spec);
-        return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
+    public List<UserDTO> getUsersBySpecification(Specification<User> spec) {
+        List<User> users = userRepository.findAll(spec);
+        if (!users.isEmpty())
+            return users.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
+        else return Collections.emptyList();
+
     }
 }
 

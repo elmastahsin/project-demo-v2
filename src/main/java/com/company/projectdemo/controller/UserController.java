@@ -2,14 +2,19 @@ package com.company.projectdemo.controller;
 
 import com.company.projectdemo.dto.ResponseWrapper;
 import com.company.projectdemo.dto.UserDTO;
+import com.company.projectdemo.entity.User;
 import com.company.projectdemo.repository.filter.FilterCriteria;
+import com.company.projectdemo.repository.filter.GenericSpecification;
 import com.company.projectdemo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -49,15 +54,20 @@ public class UserController {
         return ResponseEntity.ok(new ResponseWrapper("user successfully retrieved", user, HttpStatus.OK));
     }
 
-    @GetMapping("/?key=firstname&operation=equals&value=Ahmet\n")
-    public ResponseEntity<ResponseWrapper> getCards(
-            @RequestParam(value = "key", required = false) String key,
-            @RequestParam(value = "operation", required = false) String operation,
-            @RequestParam(value = "value", required = false) String value) {
+    @GetMapping("/filter")
+    public ResponseEntity<ResponseWrapper> getUsers(
+            @RequestParam Map<String, String> allParams) {
+        //all entries should be trimmed
 
-        FilterCriteria criteria = new FilterCriteria(key, operation, value);
-        List<UserDTO> cards = userService.getUsersBySpecification(criteria);
-        return ResponseEntity.ok(new ResponseWrapper("user successfully retrieved", cards, HttpStatus.OK));
+        List<FilterCriteria> criteriaList = allParams.entrySet().stream()
+                .map(entry -> new FilterCriteria(entry.getKey(), "equals", entry.getValue()))
+                .collect(Collectors.toList());
+
+        Specification<User> spec = new GenericSpecification<>(criteriaList);
+
+        List<UserDTO> users = userService.getUsersBySpecification(spec);
+        if(!users.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("user successfully filtered", users, HttpStatus.OK));
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("user not found", HttpStatus.NOT_FOUND));
     }
 
 
