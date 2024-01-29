@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Getter
@@ -18,7 +17,9 @@ import javax.persistence.Table;
 //@Where(clause = "is_deleted=false")
 
 public class User extends BaseEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String username;
     private String password;
     private int twoauth;

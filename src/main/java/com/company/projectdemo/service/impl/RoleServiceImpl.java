@@ -8,9 +8,11 @@ import com.company.projectdemo.repository.RoleRepository;
 import com.company.projectdemo.service.LogService;
 import com.company.projectdemo.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = mapper.convert(roleDTO, new Role());
         Role savedRole = roleRepository.save(role);
         LogHistory log = new LogHistory();
-        Map<String,Object> changedFields = EntityComparator.findChangedFields(new Role(), savedRole);
+        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Role(), savedRole);
 
         log.setTableName("roles");
         log.setOperation("save");
@@ -55,7 +57,7 @@ public class RoleServiceImpl implements RoleService {
         Role roleToUpdate = mapper.convert(roleDTO, new Role());
         Role savedRole = roleRepository.findById(roleToUpdate.getId()).get();
 
-        Map<String,Object> changedFields = EntityComparator.findChangedFields(savedRole, roleToUpdate);
+        Map<String, Object> changedFields = EntityComparator.findChangedFields(savedRole, roleToUpdate);
 
         LogHistory log = new LogHistory();
         log.setTableName("roles");
@@ -86,6 +88,14 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDTO> listAll() {
         List<Role> roleList = roleRepository.findAll();
         return roleList.stream().map(role -> mapper.convert(role, new RoleDTO())).collect(Collectors.toList());
+
+    }
+
+    public List<RoleDTO> getRolesBySpecification(Specification<Role> spec) {
+        List<Role> roles = roleRepository.findAll(spec);
+        if (!roles.isEmpty())
+            return roles.stream().map(role -> mapper.convert(role, new RoleDTO())).collect(Collectors.toList());
+        else return Collections.emptyList();
 
     }
 }

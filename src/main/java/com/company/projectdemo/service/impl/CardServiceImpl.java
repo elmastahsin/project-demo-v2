@@ -58,7 +58,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public void update(CardDTO cardDTO) {
         Card cardToUpdate = mapper.convert(cardDTO, new Card());
-        Card savedCard = cardRepository.findById(cardToUpdate.getId()).get();
+        Card savedCard = cardRepository.findById(cardToUpdate.getCardno()).get();
         Map<String, Object> changedFields = EntityComparator.findChangedFields(savedCard, cardToUpdate);
 
         LogHistory log = new LogHistory();

@@ -15,11 +15,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "transactions")
 public class Transaction extends BaseEntity {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "card_id")
-    private Card cardid;
-//    private String cardno;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "card_no")
+    private Card cardno;
     private Integer amountmoney;
     private Integer transactiontype;
     private Integer vattype;

@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +17,9 @@ import lombok.Setter;
 //@Table(name = "address")
 //@Where(clause = "is_deleted=false")
 public class Address extends BaseEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String addressLine1;
     private String addressLine2;

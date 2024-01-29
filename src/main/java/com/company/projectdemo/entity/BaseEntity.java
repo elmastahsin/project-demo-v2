@@ -12,9 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @MappedSuperclass
 public class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     //    @Column(nullable = false, updatable = false)
     private LocalDateTime createdatetime;

@@ -12,7 +12,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 public class TransactionDTO {
     private Long id;
-    private Card cardid;
+    private Card cardno;
     private Integer amountmoney;
     private Integer transactiontype;
     private Integer vattype;

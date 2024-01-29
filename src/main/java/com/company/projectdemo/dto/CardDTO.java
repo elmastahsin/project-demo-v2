@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class CardDTO {
-    private Long id;
-    private String cardno;
+    private Long cardno;
     private Double amountfoodmoney;
     private Double amountclothesmoney;
     private Double amountpublicmoney;

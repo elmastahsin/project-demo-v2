@@ -5,10 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,8 +19,9 @@ import java.time.LocalDateTime;
 
 public class Card extends BaseEntity {
 
-
-    private String cardno;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cardno;
     private Double amountfoodmoney;
     private Double amountclothesmoney;
     private Double amountpublicmoney;
@@ -38,5 +38,11 @@ public class Card extends BaseEntity {
     private String mifareno;
     private String region;
     private String note;
+
+
+    public void onPrePersist() {
+        // Generate a unique card number here. This is just an example.
+        this.cardno = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+    }
 
 }
