@@ -105,9 +105,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDTO> findByCardNo(Long cardno) {
         Card card = cardRepository.findByCardno(cardno);
+        if (card == null) return Collections.emptyList();
         List<Transaction> transactions = transactionRepository.findByCardno(card);
-        if (!transactions.isEmpty())
-            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
+        if (!transactions.isEmpty()) return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
         else return Collections.emptyList();
     }
 

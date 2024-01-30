@@ -102,8 +102,7 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDTO> getUsersBySpecification(Specification<User> spec) {
         List<User> users = userRepository.findAll(spec);
-        if (!users.isEmpty())
-            return users.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
+        if (!users.isEmpty()) return users.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
         else return Collections.emptyList();
 
     }
