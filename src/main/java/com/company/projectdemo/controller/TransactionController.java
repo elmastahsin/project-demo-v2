@@ -24,9 +24,9 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper> createTransaction(@RequestBody TransactionDTO transactionDTO) {
+    public ResponseEntity<ResponseWrapper> createTransaction(@RequestBody TransactionDTO transaction) {
 
-        transactionService.save(transactionDTO);
+       TransactionDTO transactionDTO = transactionService.save(transaction);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("transaction successfully created", transactionDTO, HttpStatus.CREATED));
     }
 

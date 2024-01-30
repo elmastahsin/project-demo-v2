@@ -28,12 +28,13 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<ResponseWrapper> createCard(@RequestBody CardDTO card) {
-        cardService.save(card);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully created",card, HttpStatus.CREATED));
+       CardDTO cardDTO =  cardService.save(card);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully created",cardDTO, HttpStatus.CREATED));
     }
 
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<ResponseWrapper> getCard() {
         List<CardDTO> cards = cardService.listAll();
         return ResponseEntity.ok(new ResponseWrapper("cards successfully retrieved", cards, HttpStatus.OK));

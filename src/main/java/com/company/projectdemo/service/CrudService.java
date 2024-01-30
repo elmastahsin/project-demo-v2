@@ -9,7 +9,7 @@ public interface CrudService<T, ID> {
 
     List<T> findByAll(T t);
 
-    void save(T t);
+    T save(T t);
 
     void update(T t);
 

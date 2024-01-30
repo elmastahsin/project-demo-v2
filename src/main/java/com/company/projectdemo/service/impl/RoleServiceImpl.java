@@ -38,18 +38,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void save(RoleDTO roleDTO) {
+    public RoleDTO save(RoleDTO roleDTO) {
         Role role = mapper.convert(roleDTO, new Role());
-        Role savedRole = roleRepository.save(role);
+
         LogHistory log = new LogHistory();
-        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Role(), savedRole);
+//        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Role(), savedRole);
 
         log.setTableName("roles");
         log.setOperation("insert");
-        log.setChangedColumn(changedFields);
-        log.setChangedBy(savedRole.getName());
+//        log.setChangedColumn(changedFields);
+        log.setChangedBy(roleDTO.getRank());
         log.setChangedAt(LocalDateTime.now());
+        role.setRank(roleDTO.getRank()+"DATABASE");
+        roleRepository.save(role);
         logService.save(log);
+        return mapper.convert(role, new RoleDTO());
     }
 
     @Override

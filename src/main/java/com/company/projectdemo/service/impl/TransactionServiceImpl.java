@@ -29,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final CardRepository cardRepository;
 
     @Override
-    public void save(TransactionDTO transactionDTO) {
+    public TransactionDTO save(TransactionDTO transactionDTO) {
         Transaction transaction = mapper.convert(transactionDTO, new Transaction());
 
 //       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
@@ -41,8 +41,9 @@ public class TransactionServiceImpl implements TransactionService {
         log.setChangedBy(transaction.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
+        transaction.setAct(transactionDTO.getAct() + "Database");
         transactionRepository.save(transaction);
-
+        return mapper.convert(transaction, new TransactionDTO());
     }
 
     @Override
@@ -107,7 +108,8 @@ public class TransactionServiceImpl implements TransactionService {
         Card card = cardRepository.findByCardno(cardno);
         if (card == null) return Collections.emptyList();
         List<Transaction> transactions = transactionRepository.findByCardno(card);
-        if (!transactions.isEmpty()) return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
+        if (!transactions.isEmpty())
+            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
         else return Collections.emptyList();
     }
 

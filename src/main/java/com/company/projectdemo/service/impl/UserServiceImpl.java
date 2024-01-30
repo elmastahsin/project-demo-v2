@@ -27,21 +27,22 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void save(UserDTO userDTO) {
+    public UserDTO save(UserDTO userDTO) {
         User user = mapper.convert(userDTO, new User());
 
-            Map<String, Object> changedFields = EntityComparator.findChangedFields(new User(), user);
-            if (changedFields.isEmpty()) return;
+        Map<String, Object> changedFields = EntityComparator.findChangedFields(new User(), user);
+        if (changedFields.isEmpty()) return null;
 
-            LogHistory log = new LogHistory();
-            log.setTableName("users");
-            log.setOperation("insert");
+        LogHistory log = new LogHistory();
+        log.setTableName("users");
+        log.setOperation("insert");
 //            log.setChangedColumn(changedFields);
-            log.setChangedBy(user.getUsername());
-            log.setChangedAt(LocalDateTime.now());
-            logService.save(log);
-            userRepository.save(user);
-
+        log.setChangedBy(user.getUsername());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        user.setUsername(user.getUsername()+"DATABASE");
+        userRepository.save(user);
+        return mapper.convert(user, new UserDTO());
 
     }
 
@@ -53,18 +54,16 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.findById(userToUpdate.getId()).get();
 
 
-
-            Map<String, Object> changedFields = EntityComparator.findChangedFields(savedUser, userToUpdate);
-            if (changedFields.isEmpty()) return;
-            LogHistory log = new LogHistory();
-            log.setTableName("users");
-            log.setOperation("update");
-            log.setChangedColumn(changedFields);
-            log.setChangedBy(savedUser.getUsername());
-            log.setChangedAt(LocalDateTime.now());
-            logService.save(log);
-            userRepository.save(userToUpdate);
-
+        Map<String, Object> changedFields = EntityComparator.findChangedFields(savedUser, userToUpdate);
+        if (changedFields.isEmpty()) return;
+        LogHistory log = new LogHistory();
+        log.setTableName("users");
+        log.setOperation("update");
+        log.setChangedColumn(changedFields);
+        log.setChangedBy(savedUser.getUsername());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        userRepository.save(userToUpdate);
 
 
     }
@@ -86,7 +85,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public List<UserDTO> findByFilter(String search) {
         List<User> userList = userRepository.findByFilter(search);
@@ -102,7 +100,8 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDTO> getUsersBySpecification(Specification<User> spec) {
         List<User> users = userRepository.findAll(spec);
-        if (!users.isEmpty()) return users.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
+        if (!users.isEmpty())
+            return users.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
         else return Collections.emptyList();
 
     }
