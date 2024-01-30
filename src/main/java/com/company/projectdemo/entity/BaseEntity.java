@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -12,23 +15,21 @@ import java.time.LocalDateTime;
 @Data
 @MappedSuperclass
 public class BaseEntity {
-
-
     //    @Column(nullable = false, updatable = false)
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdatetime;
     //    @Column(nullable = false, updatable = false)
     private Long createuserId;
     //    @Column(nullable = false)
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime lastupdatetime;
-//    @Column(nullable = false)
-//  private Long lastupdateuserid;
-
     private String name;
-
-    //private Boolean isDeleted = false;
     private short flag;
     private boolean status;
 
+    //private Boolean isDeleted = false;
+    //    @Column(nullable = false)
+    //  private Long lastupdateuserid;
     @PrePersist
     public void onPrePersist() {
         this.createdatetime = LocalDateTime.now();
