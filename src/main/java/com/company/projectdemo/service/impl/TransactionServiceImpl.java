@@ -36,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         LogHistory log = new LogHistory();
         log.setTableName("transactions");
-        log.setOperation("save");
+        log.setOperation("insert");
 //        log.setChangedColumn("changedFields");
         log.setChangedBy(transaction.getName());
         log.setChangedAt(LocalDateTime.now());

@@ -45,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
         Map<String, Object> changedFields = EntityComparator.findChangedFields(new Role(), savedRole);
 
         log.setTableName("roles");
-        log.setOperation("save");
+        log.setOperation("insert");
         log.setChangedColumn(changedFields);
         log.setChangedBy(savedRole.getName());
         log.setChangedAt(LocalDateTime.now());

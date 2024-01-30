@@ -1,6 +1,5 @@
 package com.company.projectdemo.repository;
 
-import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
             "LOWER(t.email) LIKE LOWER(:search) OR " +
             "LOWER(t.password) LIKE LOWER(:search)")
     List<User> findByFilter(@Param("search") String search);
+
     User findByUsername(String username);
 }

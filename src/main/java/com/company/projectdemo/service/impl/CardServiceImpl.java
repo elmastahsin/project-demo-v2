@@ -47,7 +47,7 @@ public class CardServiceImpl implements CardService {
 //        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Card(), card);
 
         log.setTableName("cards");
-        log.setOperation("create");
+        log.setOperation("insert");
 //        log.setChangedColumn(changedFields);
         log.setChangedBy(card.getName());
         log.setChangedAt(LocalDateTime.now());

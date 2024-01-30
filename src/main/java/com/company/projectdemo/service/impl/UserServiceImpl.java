@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
 
             LogHistory log = new LogHistory();
             log.setTableName("users");
-            log.setOperation("update");
-            log.setChangedColumn(changedFields);
+            log.setOperation("insert");
+//            log.setChangedColumn(changedFields);
             log.setChangedBy(user.getUsername());
             log.setChangedAt(LocalDateTime.now());
             logService.save(log);
