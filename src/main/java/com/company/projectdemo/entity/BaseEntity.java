@@ -1,13 +1,11 @@
 package com.company.projectdemo.entity;
 
+import com.company.projectdemo.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -25,7 +23,8 @@ public class BaseEntity {
     private LocalDateTime lastupdatetime;
     private String name;
     private short flag;
-    private boolean status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     //private Boolean isDeleted = false;
     //    @Column(nullable = false)
@@ -36,7 +35,7 @@ public class BaseEntity {
         this.lastupdatetime = LocalDateTime.now();
         this.createuserId = 1L;
         this.flag = 1;
-        this.status = true;
+        this.status = Status.ACTIVE;
 //      this.lastupdateuserid = 1L;
     }
 

@@ -16,7 +16,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             "LOWER(t.createuserId) LIKE LOWER(:search) OR " +
             "LOWER(t.transactiontype) LIKE LOWER(:search)")
     List<Transaction> findByFilter(@Param("search") String search);
-
+@Query("SELECT t FROM Transaction t WHERE " +
+        "LOWER(t.amountmoney) LIKE LOWER(:search) OR " +
+        "LOWER(t.createuserId) LIKE LOWER(:search) OR " +
+        "LOWER(t.transactiontype) LIKE LOWER(:search)")
     List<Transaction> findByCardno(Card cardno);
 
 }

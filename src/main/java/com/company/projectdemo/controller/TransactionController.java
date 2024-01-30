@@ -70,7 +70,7 @@ public class TransactionController {
         if(!transactions.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("transaction successfully filtered", transactions, HttpStatus.OK));
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("transaction not found", HttpStatus.NOT_FOUND));
     }
-    @GetMapping("/byCard/{cardno}")
+    @GetMapping("/filter-by-card/{cardno}")
     public ResponseEntity<ResponseWrapper> getTransactions(
             @PathVariable Long cardno) {
 
