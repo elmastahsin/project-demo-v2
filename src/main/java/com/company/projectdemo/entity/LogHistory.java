@@ -1,7 +1,6 @@
 package com.company.projectdemo.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -35,7 +32,7 @@ public class LogHistory {
     //JsonBinaryType
     @Type(type = "json")
     @Column(columnDefinition = "jsonb") // ensure this matches your DB column type
-    private Map<String,Object> changedColumn = new HashMap<>();
+    private Map<String, Object> changedColumn = new HashMap<>();
     private String operation;
     private String changedBy;
     private LocalDateTime changedAt;
