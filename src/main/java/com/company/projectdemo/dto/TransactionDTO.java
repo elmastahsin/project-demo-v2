@@ -18,15 +18,15 @@ public class TransactionDTO {
     private Integer vattype;
     private String act;
     private Integer uid;
-//    private String ip;
-//    private Long bid;
-//    private String tuniquenumber;
-//    private Long mediatorid;
-//    private String terminalid;
-//    private Long storeid;
-//    private Long refundid;
-//    private String note;
-//    private String saletype;
+    private String ip;
+    private Long bid;
+    private String tuniquenumber;
+    private Long mediatorid;
+    private String terminalid;
+    private Long storeid;
+    private Long refundid;
+    private String note;
+    private String saletype;
 
 
 }

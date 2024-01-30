@@ -12,5 +12,6 @@ import java.util.List;
 
 public interface TransactionService extends CrudService<TransactionDTO, Long> {
     List<TransactionDTO> getTransactionsBySpecification(Specification<Transaction> spec);
+    List<TransactionDTO> findByCardNo(Long cardno);
 
 }

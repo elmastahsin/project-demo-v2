@@ -1,7 +1,7 @@
 package com.company.projectdemo.repository;
 
+import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.entity.Transaction;
-import com.company.projectdemo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +16,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             "LOWER(t.createuserId) LIKE LOWER(:search) OR " +
             "LOWER(t.transactiontype) LIKE LOWER(:search)")
     List<Transaction> findByFilter(@Param("search") String search);
+
+    List<Transaction> findByCardno(Card cardno);
+
 }
