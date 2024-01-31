@@ -27,6 +27,8 @@ public class UserDTO {
     private int twoauth;
     private String gsm;
     private String email;
+    private String note;
+
 //    private Boolean locked;
 //    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //     private AddressDTO address;

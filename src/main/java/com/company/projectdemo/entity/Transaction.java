@@ -36,7 +36,6 @@ public class Transaction extends BaseEntity {
     private String terminalid;
     private Long storeid;
     private Long refundid;
-    private String note;
     private String saletype;
 
 //    @PrePersist

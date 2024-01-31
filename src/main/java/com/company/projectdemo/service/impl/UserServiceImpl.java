@@ -1,5 +1,6 @@
 package com.company.projectdemo.service.impl;
 
+import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.dto.UserDTO;
 import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.entity.User;
@@ -29,7 +30,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO save(UserDTO userDTO) {
         User user = mapper.convert(userDTO, new User());
-
+        User savedUser = userRepository.findByUsername(userDTO.getUsername());
+        if (savedUser != null) {
+            userDTO.setNote("User already exist");
+            return userDTO;
+        }
         Map<String, Object> changedFields = EntityComparator.findChangedFields(new User(), user);
         if (changedFields.isEmpty()) return null;
 
@@ -40,7 +45,7 @@ public class UserServiceImpl implements UserService {
         log.setChangedBy(user.getUsername());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
-        user.setUsername(user.getUsername() + "DATABASE");
+        user.setUsername(user.getUsername());
         userRepository.save(user);
         return mapper.convert(user, new UserDTO());
 

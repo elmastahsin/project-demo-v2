@@ -21,10 +21,12 @@ public class BaseEntity {
     //    @Column(nullable = false)
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime lastupdatetime;
+    private String note;
     private String name;
     private short flag;
     @Enumerated(EnumType.STRING)
     private Status status;
+
 
     //private Boolean isDeleted = false;
     //    @Column(nullable = false)

@@ -3,8 +3,6 @@ package com.company.projectdemo.controller;
 
 import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.dto.ResponseWrapper;
-import com.company.projectdemo.dto.CardDTO;
-import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.repository.filter.FilterCriteria;
 import com.company.projectdemo.repository.filter.GenericSpecification;
@@ -28,9 +26,8 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<ResponseWrapper> createCard(@RequestBody CardDTO card) {
-       CardDTO cardDTO =  cardService.save(card);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully created",cardDTO, HttpStatus.CREATED));
+        CardDTO cardDTO = cardService.save(card);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully created", cardDTO, HttpStatus.CREATED));
     }
 
 
@@ -46,7 +43,7 @@ public class CardController {
     @PutMapping
     public ResponseEntity<ResponseWrapper> updateCard(@RequestBody CardDTO card) {
         cardService.update(card);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully updated", card,HttpStatus.CREATED));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully updated", card, HttpStatus.CREATED));
     }
 
     //filter
@@ -55,6 +52,7 @@ public class CardController {
         List<CardDTO> card = cardService.findByFilter(search);
         return ResponseEntity.ok(new ResponseWrapper("card successfully retrieved", card, HttpStatus.OK));
     }
+
     @GetMapping("/filter")
     public ResponseEntity<ResponseWrapper> getCards(
             @RequestParam Map<String, String> allParams) {
@@ -67,8 +65,10 @@ public class CardController {
         Specification<Card> spec = new GenericSpecification<>(criteriaList);
 
         List<CardDTO> cards = cardService.getCardsBySpecification(spec);
-        if(!cards.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("card successfully filtered", cards, HttpStatus.OK));
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("card not found", HttpStatus.NOT_FOUND));
+        if (!cards.isEmpty())
+            return ResponseEntity.ok(new ResponseWrapper("card successfully filtered", cards, HttpStatus.OK));
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("card not found", HttpStatus.NOT_FOUND));
     }
 
 }
