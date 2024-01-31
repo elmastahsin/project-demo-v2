@@ -2,10 +2,10 @@ package com.company.projectdemo.controller;
 
 import com.company.projectdemo.dto.ResponseWrapper;
 import com.company.projectdemo.dto.TransactionDTO;
-import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.repository.filter.FilterCriteria;
 import com.company.projectdemo.repository.filter.GenericSpecification;
+import com.company.projectdemo.service.CardService;
 import com.company.projectdemo.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,12 +22,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
+    private final CardService cardService;
 
     @PostMapping
     public ResponseEntity<ResponseWrapper> createTransaction(@RequestBody TransactionDTO transaction) {
 
-       TransactionDTO transactionDTO = transactionService.save(transaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("transaction successfully created", transactionDTO, HttpStatus.CREATED));
+        TransactionDTO transactionDTO = transactionService.save(transaction);
+        if (transactionDTO.getId() == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper("No enough money to make transaction", HttpStatus.BAD_REQUEST));
+        else if (transactionDTO.getNote().equals("Not enough money to make transaction"))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(transactionDTO.getNote(), HttpStatus.BAD_REQUEST));
+        else
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("transaction successfully created", transactionDTO, HttpStatus.CREATED));
     }
 
 
@@ -67,18 +73,22 @@ public class TransactionController {
         Specification<Transaction> spec = new GenericSpecification<>(criteriaList);
 
         List<TransactionDTO> transactions = transactionService.getTransactionsBySpecification(spec);
-        if(!transactions.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("transaction successfully filtered", transactions, HttpStatus.OK));
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("transaction not found", HttpStatus.NOT_FOUND));
+        if (!transactions.isEmpty())
+            return ResponseEntity.ok(new ResponseWrapper("transaction successfully filtered", transactions, HttpStatus.OK));
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("transaction not found", HttpStatus.NOT_FOUND));
     }
+
     @GetMapping("/filter-by-card/{cardno}")
     public ResponseEntity<ResponseWrapper> getTransactions(
             @PathVariable Long cardno) {
 
         List<TransactionDTO> transactions = transactionService.findByCardNo(cardno);
-        if(!transactions.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("transaction successfully filtered", transactions, HttpStatus.OK));
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("transaction not found", HttpStatus.NOT_FOUND));
+        if (!transactions.isEmpty())
+            return ResponseEntity.ok(new ResponseWrapper("transaction successfully filtered", transactions, HttpStatus.OK));
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("transaction not found", HttpStatus.NOT_FOUND));
     }
-
 
 
 }

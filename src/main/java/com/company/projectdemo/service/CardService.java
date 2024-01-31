@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CardService extends CrudService<CardDTO, Long> {
     List<CardDTO> getCardsBySpecification(Specification<Card> spec);
+
 }

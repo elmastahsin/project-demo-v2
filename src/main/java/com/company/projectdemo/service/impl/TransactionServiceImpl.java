@@ -1,5 +1,6 @@
 package com.company.projectdemo.service.impl;
 
+import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.entity.LogHistory;
@@ -7,6 +8,7 @@ import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.CardRepository;
 import com.company.projectdemo.repository.TransactionRepository;
+import com.company.projectdemo.service.CardService;
 import com.company.projectdemo.service.LogService;
 import com.company.projectdemo.service.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +29,20 @@ public class TransactionServiceImpl implements TransactionService {
     private final LogService logService;
     private final TransactionRepository transactionRepository;
     private final CardRepository cardRepository;
+    private final CardService cardService;
 
     @Override
     public TransactionDTO save(TransactionDTO transactionDTO) {
         Transaction transaction = mapper.convert(transactionDTO, new Transaction());
+        CardDTO cardDTO=cardService.findById(transaction.getCardno());
+        if (cardDTO==null){
+             transactionDTO.setNote("No card available");
+             return transactionDTO;
+        }
+        if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney()){
+            transactionDTO.setNote("Not enough money to make transaction");
+            return transactionDTO;
+        }
 
 //       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
 
