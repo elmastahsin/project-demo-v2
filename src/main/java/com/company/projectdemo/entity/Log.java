@@ -22,7 +22,7 @@ import java.util.Map;
 @Table(name = "logs")
 @Where(clause = "is_deleted=false")
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
-public class LogHistory {
+public class Log {
 
     @Id
     @GeneratedValue
