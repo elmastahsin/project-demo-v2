@@ -31,7 +31,7 @@ public class Log {
     private String tableName;
     //JsonBinaryType
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb") // ensure this matches your DB column type
+    @Column(columnDefinition = "jsonb")
     private Map<String, Object> changedColumn = new HashMap<>();
     private String operation;
     private String changedBy;

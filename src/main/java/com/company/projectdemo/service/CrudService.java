@@ -1,5 +1,7 @@
 package com.company.projectdemo.service;
 
+import com.company.projectdemo.dto.TransactionDTO;
+
 import java.util.List;
 
 public interface CrudService<T, ID> {
@@ -9,9 +11,9 @@ public interface CrudService<T, ID> {
 
     List<T> findByAll(T t);
 
-    T save(T t);
+    T  save(T t);
 
-    void update(T t);
+
 
     boolean isExist(T t);
 

@@ -1,16 +1,10 @@
 package com.company.projectdemo.service.impl;
 
-import com.company.projectdemo.entity.LogHistory;
-import com.company.projectdemo.entity.User;
-import com.company.projectdemo.mapper.MapperUtil;
+import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.repository.LogHistoryRepository;
-import com.company.projectdemo.repository.UserRepository;
 import com.company.projectdemo.service.LogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +14,7 @@ public class LogServiceImpl implements LogService {
 
 
     @Override
-    public void save(LogHistory log) {
+    public void save(Log log) {
         logHistoryRepository.save(log);
     }
 

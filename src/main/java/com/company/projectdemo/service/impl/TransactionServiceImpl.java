@@ -3,7 +3,7 @@ package com.company.projectdemo.service.impl;
 import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.Card;
-import com.company.projectdemo.entity.LogHistory;
+import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.CardRepository;
@@ -34,19 +34,20 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO save(TransactionDTO transactionDTO) {
         Transaction transaction = mapper.convert(transactionDTO, new Transaction());
-        CardDTO cardDTO=cardService.findById(transaction.getCardno());
-        if (cardDTO==null){
-             transactionDTO.setNote("No card available");
-             return transactionDTO;
+        CardDTO cardDTO = cardService.findById(transaction.getCardno());
+        if (cardDTO == null) {
+            transactionDTO.setNote("No card available");
+            transactionDTO.setCardno(null);
+            return transactionDTO;
         }
-        if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney()){
+        if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney()) {
             transactionDTO.setNote("Not enough money to make transaction");
             return transactionDTO;
         }
 
 //       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
         log.setTableName("transactions");
         log.setOperation("insert");
 //        log.setChangedColumn("changedFields");
@@ -58,15 +59,45 @@ public class TransactionServiceImpl implements TransactionService {
         return mapper.convert(transaction, new TransactionDTO());
     }
 
+//    @Override
+//    public void update(TransactionDTO transactionDTO) {
+//
+//        Transaction transactionToUpdate = mapper.convert(transactionDTO, new Transaction());
+//        Transaction savedTransaction = transactionRepository.findById(transactionToUpdate.getId()).get();
+//
+//
+//
+//        Map<String, Object> changedFields = EntityComparator.findChangedFields(savedTransaction, transactionToUpdate);
+//
+//        Log log = new Log();
+//        log.setTableName("transactions");
+//        log.setOperation("update");
+//        log.setChangedColumn(changedFields);
+//        log.setChangedBy(savedTransaction.getName());
+//        log.setChangedAt(LocalDateTime.now());
+//        logService.save(log);
+//        transactionRepository.save(transactionToUpdate);
+//
+//    }
     @Override
-    public void update(TransactionDTO transactionDTO) {
+    public TransactionDTO update(TransactionDTO transactionDTO) {
 
         Transaction transactionToUpdate = mapper.convert(transactionDTO, new Transaction());
         Transaction savedTransaction = transactionRepository.findById(transactionToUpdate.getId()).get();
+        CardDTO cardDTO = cardService.findById(transactionToUpdate.getCardno());
 
+        if (cardDTO == null) {
+            transactionDTO.setNote("No card available");
+            transactionDTO.setCardno(null);
+            return transactionDTO;
+        }
+        if (cardDTO.getAmountpublicmoney() < transactionToUpdate.getAmountmoney()) {
+            transactionDTO.setNote("Not enough money to make transaction");
+            return transactionDTO;
+        }
         Map<String, Object> changedFields = EntityComparator.findChangedFields(savedTransaction, transactionToUpdate);
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
         log.setTableName("transactions");
         log.setOperation("update");
         log.setChangedColumn(changedFields);
@@ -74,6 +105,7 @@ public class TransactionServiceImpl implements TransactionService {
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
         transactionRepository.save(transactionToUpdate);
+        return mapper.convert(transactionToUpdate, new TransactionDTO());
     }
 
 

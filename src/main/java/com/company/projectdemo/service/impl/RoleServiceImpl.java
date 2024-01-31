@@ -1,7 +1,7 @@
 package com.company.projectdemo.service.impl;
 
 import com.company.projectdemo.dto.RoleDTO;
-import com.company.projectdemo.entity.LogHistory;
+import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.entity.Role;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.RoleRepository;
@@ -41,7 +41,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO save(RoleDTO roleDTO) {
         Role role = mapper.convert(roleDTO, new Role());
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
 //        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Role(), savedRole);
 
         log.setTableName("roles");
@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
 //        log.setChangedColumn(changedFields);
         log.setChangedBy(roleDTO.getRank());
         log.setChangedAt(LocalDateTime.now());
-        role.setRank(roleDTO.getRank()+"DATABASE");
+        role.setRank(roleDTO.getRank() + "DATABASE");
         roleRepository.save(role);
         logService.save(log);
         return mapper.convert(role, new RoleDTO());
@@ -62,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
 
         Map<String, Object> changedFields = EntityComparator.findChangedFields(savedRole, roleToUpdate);
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
         log.setTableName("roles");
         log.setOperation("update");
         log.setChangedColumn(changedFields);

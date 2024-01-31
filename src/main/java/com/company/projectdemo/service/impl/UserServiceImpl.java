@@ -1,7 +1,7 @@
 package com.company.projectdemo.service.impl;
 
 import com.company.projectdemo.dto.UserDTO;
-import com.company.projectdemo.entity.LogHistory;
+import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.entity.User;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.UserRepository;
@@ -33,14 +33,14 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> changedFields = EntityComparator.findChangedFields(new User(), user);
         if (changedFields.isEmpty()) return null;
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
         log.setTableName("users");
         log.setOperation("insert");
 //            log.setChangedColumn(changedFields);
         log.setChangedBy(user.getUsername());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
-        user.setUsername(user.getUsername()+"DATABASE");
+        user.setUsername(user.getUsername() + "DATABASE");
         userRepository.save(user);
         return mapper.convert(user, new UserDTO());
 
@@ -56,13 +56,14 @@ public class UserServiceImpl implements UserService {
 
         Map<String, Object> changedFields = EntityComparator.findChangedFields(savedUser, userToUpdate);
         if (changedFields.isEmpty()) return;
-        LogHistory log = new LogHistory();
+        Log log = new Log();
         log.setTableName("users");
         log.setOperation("update");
         log.setChangedColumn(changedFields);
         log.setChangedBy(savedUser.getUsername());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
+        userToUpdate.setCreatedatetime(LocalDateTime.now());
         userRepository.save(userToUpdate);
 
 

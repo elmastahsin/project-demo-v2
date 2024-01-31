@@ -39,6 +39,9 @@ public class Card extends BaseEntity {
     private String region;
     private String note;
 
+//    @OneToMany(mappedBy = "cardno") // in OneToMany relationship ownership belongs to many side
+//    private Transaction transaction;
+
 
     public void onPrePersist() {
         // Generate a unique card number here. This is just an example.

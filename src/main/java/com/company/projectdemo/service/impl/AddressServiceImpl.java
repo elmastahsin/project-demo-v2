@@ -26,10 +26,7 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
-    @Override
-    public void update(AddressDTO addressDto) {
-        throw new IllegalStateException("Not Implemented");
-    }
+
 
 
     @Override

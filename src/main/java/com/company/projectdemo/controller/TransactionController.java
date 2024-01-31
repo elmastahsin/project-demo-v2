@@ -28,8 +28,9 @@ public class TransactionController {
     public ResponseEntity<ResponseWrapper> createTransaction(@RequestBody TransactionDTO transaction) {
 
         TransactionDTO transactionDTO = transactionService.save(transaction);
-        if (transactionDTO.getId() == null)
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper("No enough money to make transaction", HttpStatus.BAD_REQUEST));
+
+        if (transactionDTO.getCardno() == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper("No card available", HttpStatus.BAD_REQUEST));
         else if (transactionDTO.getNote().equals("Not enough money to make transaction"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(transactionDTO.getNote(), HttpStatus.BAD_REQUEST));
         else
@@ -51,7 +52,13 @@ public class TransactionController {
     @PutMapping
     public ResponseEntity<ResponseWrapper> updateTransaction(@RequestBody TransactionDTO transactionDTO) {
         transactionService.update(transactionDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("transaction successfully updated", transactionDTO, HttpStatus.CREATED));
+        if (transactionDTO.getCardno() == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper("No card available", HttpStatus.BAD_REQUEST));
+        else if (transactionDTO.getNote().equals("Not enough money to make transaction"))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(transactionDTO.getNote(), HttpStatus.BAD_REQUEST));
+        else
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("transaction successfully created", transactionDTO, HttpStatus.CREATED));
+
     }
 
     //filter

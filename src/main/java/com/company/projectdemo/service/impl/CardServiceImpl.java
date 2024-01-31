@@ -1,10 +1,8 @@
 package com.company.projectdemo.service.impl;
 
 import com.company.projectdemo.dto.CardDTO;
-import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.Card;
-import com.company.projectdemo.entity.LogHistory;
-import com.company.projectdemo.entity.Transaction;
+import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.CardRepository;
 import com.company.projectdemo.service.CardService;
@@ -43,7 +41,7 @@ public class CardServiceImpl implements CardService {
     public CardDTO save(CardDTO cardDTO) {
         Card card = mapper.convert(cardDTO, new Card());
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
 //        Map<String, Object> changedFields = EntityComparator.findChangedFields(new Card(), card);
 
         log.setTableName("cards");
@@ -52,8 +50,8 @@ public class CardServiceImpl implements CardService {
         log.setChangedBy(card.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
-        card.setProjectid(cardDTO.getProjectid()+23456);
-       cardRepository.save(card);
+        card.setProjectid(cardDTO.getProjectid() + 23456);
+        cardRepository.save(card);
         return mapper.convert(card, new CardDTO());
     }
 
@@ -63,7 +61,7 @@ public class CardServiceImpl implements CardService {
         Card savedCard = cardRepository.findById(cardToUpdate.getCardno()).get();
         Map<String, Object> changedFields = EntityComparator.findChangedFields(savedCard, cardToUpdate);
 
-        LogHistory log = new LogHistory();
+        Log log = new Log();
         log.setTableName("cards");
         log.setOperation("update");
         log.setChangedColumn(changedFields);
@@ -95,6 +93,7 @@ public class CardServiceImpl implements CardService {
         List<Card> cardList = cardRepository.findAll();
         return cardList.stream().map(card -> mapper.convert(card, new CardDTO())).collect(Collectors.toList());
     }
+
     @Override
     public List<CardDTO> getCardsBySpecification(Specification<Card> spec) {
         List<Card> cards = cardRepository.findAll(spec);
@@ -103,7 +102,6 @@ public class CardServiceImpl implements CardService {
         else return Collections.emptyList();
 
     }
-
 
 
 }
