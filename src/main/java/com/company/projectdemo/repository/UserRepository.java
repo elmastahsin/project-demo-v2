@@ -12,14 +12,11 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     @Query("SELECT t FROM User t WHERE " +
-            "LOWER(t.username) LIKE LOWER(:search) OR " +
-            "LOWER(t.email) LIKE LOWER(:search) OR " +
-            "LOWER(t.password) LIKE LOWER(:search)")
+            "LOWER(t.username) LIKE CONCAT('%',?1,'%') OR " +
+            "LOWER(t.email) LIKE concat('%',?1,'%') OR " +
+            "LOWER(t.password) LIKE concat('%',?1,'%')")
     List<User> findByFilter(@Param("search") String search);
 
     User findByUsername(String username);
-
-    //filter by or
-
 
 }

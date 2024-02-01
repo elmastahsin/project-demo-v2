@@ -17,7 +17,13 @@ public interface CardRepository extends JpaRepository<Card, Long>, JpaSpecificat
             "LOWER(t.cardno) LIKE LOWER(:search) OR " +
             "LOWER(t.cardcvv) LIKE LOWER(:search)")
     List<Card> findByFilter(@Param("search") String search);
+
     Card findByCardno(Long cardno);
+
     boolean existsByCardno(Long cardno);
+
+//    //update amount public money //native query
+//    @Query(value = "UPDATE cards SET amount = amount - :amount WHERE cardno = :cardno", nativeQuery = true)
+//    void updateAmountPublicMoney(@Param("amount") Double amount, @Param("cardno") Long cardno);
 }
 

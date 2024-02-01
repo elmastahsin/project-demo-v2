@@ -56,10 +56,12 @@ public class TransactionServiceImpl implements TransactionService {
         logService.save(log);
         transaction.setAct(transactionDTO.getAct() + "Database");
         transactionRepository.save(transaction);
+        cardDTO.setAmountpublicmoney(cardDTO.getAmountpublicmoney() - transaction.getAmountmoney());
+        cardService.update(cardDTO);
         return mapper.convert(transaction, new TransactionDTO());
     }
 
-//    @Override
+    //    @Override
 //    public void update(TransactionDTO transactionDTO) {
 //
 //        Transaction transactionToUpdate = mapper.convert(transactionDTO, new Transaction());
