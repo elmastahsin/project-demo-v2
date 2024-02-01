@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -20,7 +20,6 @@ import java.util.UUID;
 public class Card extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardno;
     private Double amountfoodmoney;
     private Double amountclothesmoney;
@@ -44,8 +43,10 @@ public class Card extends BaseEntity {
 
 
     public void onPrePersist() {
-        // Generate a unique card number here. This is just an example.
-        this.cardno = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        // Generate a unique card number First 4 digit should be project id and last 12 digit should be random
+        Random random = new Random();
+        String id = String.format("%04d", this.projectid) + String.format("%012d", random.nextInt(1000000000));
+        this.cardno = Long.parseLong(id);
     }
 
 }

@@ -39,4 +39,6 @@ public class GenericSpecification<T> implements Specification<T> {
         }
         return builder.and(predicates.toArray(new Predicate[0]));
     }
+
+
 }

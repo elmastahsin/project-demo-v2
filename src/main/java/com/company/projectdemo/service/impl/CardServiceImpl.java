@@ -50,7 +50,7 @@ public class CardServiceImpl implements CardService {
         log.setChangedBy(card.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
-        card.setProjectid(cardDTO.getProjectid() + 23456);
+        card.setProjectid(cardDTO.getProjectid());
         cardRepository.save(card);
         return mapper.convert(card, new CardDTO());
     }

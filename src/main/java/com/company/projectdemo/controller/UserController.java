@@ -27,7 +27,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<ResponseWrapper> createUser(@RequestBody UserDTO user) {
         UserDTO userDto = userService.save(user);
-        if (userDto.getNote().equals("User already exist"))
+        if (userDto.getNote()!=null && userDto.getNote().equals("User already exist"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(userDto.getNote(), HttpStatus.FORBIDDEN));
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("user successfully created", userDto, HttpStatus.CREATED));
     }

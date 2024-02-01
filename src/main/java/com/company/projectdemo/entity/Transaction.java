@@ -38,8 +38,5 @@ public class Transaction extends BaseEntity {
     private Long refundid;
     private String saletype;
 
-//    @PrePersist
-//    public void onPrePersist() {
-//    this.cardno=card.getCardno();
-//    }
+
 }

@@ -18,4 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     List<User> findByFilter(@Param("search") String search);
 
     User findByUsername(String username);
+
+    //filter by or
+
+
 }
