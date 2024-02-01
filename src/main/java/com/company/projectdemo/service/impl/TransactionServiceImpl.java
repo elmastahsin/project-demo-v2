@@ -35,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO save(TransactionDTO transactionDTO) {
         Transaction transaction = mapper.convert(transactionDTO, new Transaction());
         CardDTO cardDTO = cardService.findById(transaction.getCardno());
-        if (cardDTO == null) {
+        if (!cardRepository.existsByCardno(transaction.getCardno())) {
             transactionDTO.setNote("No card available");
             transactionDTO.setCardno(null);
             return transactionDTO;
