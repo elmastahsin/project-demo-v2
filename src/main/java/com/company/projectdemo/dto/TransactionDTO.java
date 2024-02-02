@@ -13,7 +13,7 @@ import java.math.BigInteger;
 public class TransactionDTO {
     private Long id;
     private Long cardno;
-    private Integer amountmoney;
+    private Double amountmoney;
     private Integer transactiontype;
     private Integer vattype;
     private String act;

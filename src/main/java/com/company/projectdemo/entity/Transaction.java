@@ -24,7 +24,7 @@ public class Transaction extends BaseEntity {
 //    @JoinColumn(name = "card_no", referencedColumnName = "cardno")
 //    private Card card;
     private Long cardno;
-    private Integer amountmoney;
+    private Double amountmoney;
     private Integer transactiontype;
     private Integer vattype;
     private String act;

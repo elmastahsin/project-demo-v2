@@ -33,6 +33,8 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper("No card available", HttpStatus.BAD_REQUEST));
         else if (transactionDTO.getNote().equals("Not enough money to make transaction"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(transactionDTO.getNote(), HttpStatus.BAD_REQUEST));
+        else if (transactionDTO.getNote().equals("Amount money must be positive"))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(transactionDTO.getNote(), HttpStatus.BAD_REQUEST));
         else
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("transaction successfully created", transactionDTO, HttpStatus.CREATED));
     }

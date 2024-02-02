@@ -40,8 +40,13 @@ public class TransactionServiceImpl implements TransactionService {
             transactionDTO.setCardno(null);
             return transactionDTO;
         }
-        if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney()) {
+
+        if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney()  ) {
             transactionDTO.setNote("Not enough money to make transaction");
+            return transactionDTO;
+        }
+        if(transaction.getAmountmoney() <= 0) {
+            transactionDTO.setNote("Amount money must be positive");
             return transactionDTO;
         }
 
@@ -62,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     //    @Override
-//    public void update(TransactionDTO transactionDTO) {
+//     public void update(TransactionDTO transactionDTO) {
 //
 //        Transaction transactionToUpdate = mapper.convert(transactionDTO, new Transaction());
 //        Transaction savedTransaction = transactionRepository.findById(transactionToUpdate.getId()).get();
