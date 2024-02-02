@@ -14,7 +14,6 @@ public class PttemProjectDemoApp {
     ModelMapper modelMapper = new ModelMapper();
     @Bean
     public ModelMapper mapper(){
-
         return new ModelMapper();
     }
 
