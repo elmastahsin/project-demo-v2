@@ -29,6 +29,11 @@ public class ResponseWrapper {
         this.code = httpStatus.value();
         this.success = true;
     }
-
+    public ResponseWrapper(String message, Object data, HttpStatus httpStatus,boolean success) {
+        this.success = success;
+        this.message = message;
+        this.code = httpStatus.value();
+        this.data = data;
+    }
 
 }

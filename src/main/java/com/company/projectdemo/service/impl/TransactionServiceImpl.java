@@ -35,20 +35,26 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO save(TransactionDTO transactionDTO) {
         Transaction transaction = mapper.convert(transactionDTO, new Transaction());
         CardDTO cardDTO = cardService.findById(transaction.getCardno());
+
         if (!cardRepository.existsByCardno(transaction.getCardno())) {
             transactionDTO.setNote("No card available");
             transactionDTO.setCardno(null);
             return transactionDTO;
         }
+        try {
+            if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney() || transaction.getAmountmoney() == null) {
+                transactionDTO.setNote("Not enough money to make transaction");
+                return transactionDTO;
+            }
+            if (transaction.getAmountmoney() <= 0) {
+                transactionDTO.setNote("Amount money must be positive");
+                return transactionDTO;
+            }
+        } catch (RuntimeException e) {
+            e.getMessage();
+            return null;
+        }
 
-        if (cardDTO.getAmountpublicmoney() < transaction.getAmountmoney()  ) {
-            transactionDTO.setNote("Not enough money to make transaction");
-            return transactionDTO;
-        }
-        if(transaction.getAmountmoney() <= 0) {
-            transactionDTO.setNote("Amount money must be positive");
-            return transactionDTO;
-        }
 
 //       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
 
