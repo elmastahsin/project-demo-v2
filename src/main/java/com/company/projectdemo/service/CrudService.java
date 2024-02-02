@@ -14,7 +14,6 @@ public interface CrudService<T, ID> {
     T  save(T t);
 
 
-
     boolean isExist(T t);
 
     List<T> findByFilter(String search);
