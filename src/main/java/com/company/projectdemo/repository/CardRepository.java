@@ -22,7 +22,7 @@ public interface CardRepository extends JpaRepository<Card, Long>, JpaSpecificat
 
     boolean existsByCardno(Long cardno);
 
-//    //update amount public money //native query
+//    //update amount public money //native query is used
 //    @Query(value = "UPDATE cards SET amount = amount - :amount WHERE cardno = :cardno", nativeQuery = true)
 //    void updateAmountPublicMoney(@Param("amount") Double amount, @Param("cardno") Long cardno);
 }
