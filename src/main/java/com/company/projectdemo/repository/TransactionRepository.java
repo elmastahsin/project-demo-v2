@@ -18,6 +18,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             "LOWER(t.transactiontype) LIKE LOWER(:search)")
     List<Transaction> findByFilter(@Param("search") String search);
 
-    List<Transaction> findByCardno(Card cardno);
+    List<Transaction> findByCardno(Long cardno);
 
 }

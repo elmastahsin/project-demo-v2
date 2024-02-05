@@ -2,6 +2,7 @@ package com.company.projectdemo.controller;
 
 import com.company.projectdemo.dto.ResponseWrapper;
 import com.company.projectdemo.dto.TransactionDTO;
+import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.repository.filter.FilterCriteria;
 import com.company.projectdemo.repository.filter.GenericSpecification;
