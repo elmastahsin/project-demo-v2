@@ -1,6 +1,8 @@
 package com.company.projectdemo.dto;
 
 import com.company.projectdemo.entity.Card;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import java.math.BigInteger;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransactionDTO {
     private Long id;
     private Long cardno;

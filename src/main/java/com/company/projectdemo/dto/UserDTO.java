@@ -3,6 +3,8 @@ package com.company.projectdemo.dto;
 import com.company.projectdemo.entity.Address;
 import com.company.projectdemo.enums.Gender;
 import com.company.projectdemo.enums.Role;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
 

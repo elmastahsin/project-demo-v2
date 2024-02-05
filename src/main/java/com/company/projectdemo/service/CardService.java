@@ -9,4 +9,5 @@ import java.util.List;
 public interface CardService extends CrudService<CardDTO, Long> {
     List<CardDTO> getCardsBySpecification(Specification<Card> spec);
     void update(CardDTO cardDTO);
+    Long genereateRandomCardNo(Long projectid);
 }

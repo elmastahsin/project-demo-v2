@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,9 @@ public class CardServiceImpl implements CardService {
     private final MapperUtil mapper;
     private final LogService logService;
     private final CardRepository cardRepository;
+    
+
+
 
 
     @Override
@@ -39,6 +43,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public CardDTO save(CardDTO cardDTO) {
+        cardDTO.setCardno(genereateRandomCardNo(cardDTO.getProjectid()));
         Card card = mapper.convert(cardDTO, new Card());
 
         Log log = new Log();
@@ -50,7 +55,7 @@ public class CardServiceImpl implements CardService {
         log.setChangedBy(card.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
-        card.setProjectid(cardDTO.getProjectid());
+    
         cardRepository.save(card);
         return mapper.convert(card, new CardDTO());
     }
@@ -103,5 +108,18 @@ public class CardServiceImpl implements CardService {
 
     }
 
+    @Override
+    public Long genereateRandomCardNo(Long projectid) {
+        // Generate a unique card number First 4 digit should be project id and last 12 digit should be random
+        Random random = new Random();
+        // First 4 digit should be project id 
+       String id = String.valueOf(projectid).substring(0,4)+String.format("%012d", random.nextInt(1000000000));
+        Long cardno = Long.parseLong(id);
+        if (cardRepository.findByCardno(cardno)!=null) {
+            return genereateRandomCardNo(projectid);
+            
+        }
+        return cardno;
+    }
 
 }
