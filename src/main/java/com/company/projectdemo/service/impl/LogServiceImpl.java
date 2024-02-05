@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LogServiceImpl implements LogService {
+public class  LogServiceImpl implements LogService {
 
     private final LogHistoryRepository logHistoryRepository;
 
