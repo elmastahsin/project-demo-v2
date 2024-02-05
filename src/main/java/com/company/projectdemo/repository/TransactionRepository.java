@@ -20,4 +20,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
 
     List<Transaction> findByCardno(Long cardno);
 
+
 }
