@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class PttemProjectDemoApp {
+public class ProjectDemoApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(PttemProjectDemoApp.class, args);
+        SpringApplication.run(ProjectDemoApp.class, args);
     }
     ModelMapper modelMapper = new ModelMapper();
     @Bean
