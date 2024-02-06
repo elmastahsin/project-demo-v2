@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<ResponseWrapper> createUser(@RequestBody UserDTO user) {
         UserDTO userDto = userService.save(user);
-        if (userDto.getNote()!=null && userDto.getNote().equals("User already exist"))
+        if (userDto.getNote() != null && userDto.getNote().equals("User already exist"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseWrapper(userDto.getNote(), HttpStatus.FORBIDDEN));
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("user successfully created", userDto, HttpStatus.CREATED));
     }
@@ -68,10 +67,16 @@ public class UserController {
         Specification<User> spec = new GenericSpecification<>(criteriaList);
 
         List<UserDTO> users = userService.getUsersBySpecification(spec);
-        if(!users.isEmpty()) return ResponseEntity.ok(new ResponseWrapper("user successfully filtered", users, HttpStatus.OK));
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("user not found", HttpStatus.NOT_FOUND));
+        if (!users.isEmpty())
+            return ResponseEntity.ok(new ResponseWrapper("user successfully filtered", users, HttpStatus.OK));
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseWrapper("user not found", HttpStatus.NOT_FOUND));
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseWrapper> deleteUser(@PathVariable("id") Long id) {
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseWrapper("user successfully deleted", HttpStatus.OK));
+    }
 
 }

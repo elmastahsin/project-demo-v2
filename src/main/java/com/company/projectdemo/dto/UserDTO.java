@@ -4,6 +4,7 @@ import com.company.projectdemo.entity.Address;
 import com.company.projectdemo.enums.Gender;
 import com.company.projectdemo.enums.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class UserDTO {
     //    private String firstname;
 //    private String lastname;
     private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // to hide password in response
     private String password;
     private int twoauth;
     private String gsm;

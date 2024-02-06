@@ -1,5 +1,6 @@
 package com.company.projectdemo.controller;
 
+import com.company.projectdemo.dto.LogDTO;
 import com.company.projectdemo.dto.ResponseWrapper;
 import com.company.projectdemo.dto.UserDTO;
 import com.company.projectdemo.service.LogService;
@@ -18,10 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LogController {
 private final LogService logService;
-//    @GetMapping
-//    public ResponseEntity<ResponseWrapper> getUser() {
-//        List<UserDTO> users = logService.listAll();
-//        return ResponseEntity.ok(new ResponseWrapper("users successfully retrieved", users, HttpStatus.OK));
-//
-//    }
+    @GetMapping
+    public ResponseEntity<ResponseWrapper> getUser() {
+        List<LogDTO> users = logService.listAll();
+        return ResponseEntity.ok(new ResponseWrapper("users successfully retrieved", users, HttpStatus.OK));
+
+    }
 }

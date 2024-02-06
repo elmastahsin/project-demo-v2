@@ -62,7 +62,7 @@ public class CardController {
         //all entries should be trimmed
 
         List<FilterCriteria> criteriaList = allParams.entrySet().stream()
-                .map(entry -> new FilterCriteria(entry.getKey(), "equal", entry.getValue()))
+                .map(entry -> new FilterCriteria(entry.getKey(), "equals", entry.getValue()))
                 .collect(Collectors.toList());
 
         Specification<Card> spec = new GenericSpecification<>(criteriaList);

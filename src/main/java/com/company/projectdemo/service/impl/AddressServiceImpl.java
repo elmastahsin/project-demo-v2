@@ -47,5 +47,10 @@ public class AddressServiceImpl implements AddressService {
         return null;
     }
 
+    @Override
+    public void delete(Long aLong) {
+        throw new IllegalStateException("Not Implemented");
+    }
+
 
 }
