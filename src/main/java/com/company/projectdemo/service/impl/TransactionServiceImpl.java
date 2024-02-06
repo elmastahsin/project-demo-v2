@@ -67,33 +67,14 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAct(transactionDTO.getAct() + "Database");
         transactionRepository.save(transaction);
         cardDTO.setAmountpublicmoney(cardDTO.getAmountpublicmoney() - transaction.getAmountmoney());
+        if (cardDTO.getAmountpublicmoney() < 0.1) {
+          cardDTO.setAmountpublicmoney(0.0);
+        }
         cardService.update(cardDTO);
         return mapper.convert(transaction, new TransactionDTO());
     }
 
-    // @Override
-    // public void update(TransactionDTO transactionDTO) {
-    //
-    // Transaction transactionToUpdate = mapper.convert(transactionDTO, new
-    // Transaction());
-    // Transaction savedTransaction =
-    // transactionRepository.findById(transactionToUpdate.getId()).get();
-    //
-    //
-    //
-    // Map<String, Object> changedFields =
-    // EntityComparator.findChangedFields(savedTransaction, transactionToUpdate);
-    //
-    // Log log = new Log();
-    // log.setTableName("transactions");
-    // log.setOperation("update");
-    // log.setChangedColumn(changedFields);
-    // log.setChangedBy(savedTransaction.getName());
-    // log.setChangedAt(LocalDateTime.now());
-    // logService.save(log);
-    // transactionRepository.save(transactionToUpdate);
-    //
-    // }
+
     @Override
     public TransactionDTO update(TransactionDTO transactionDTO) {
 
