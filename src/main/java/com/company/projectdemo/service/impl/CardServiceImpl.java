@@ -98,6 +98,19 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
+    public void delete(Long aLong) {
+        Card card = cardRepository.findById(aLong).get();
+        Log log = new Log();
+        log.setTableName("cards");
+        log.setOperation("delete");
+        log.setChangedColumn(null);
+        log.setChangedBy(card.getName());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        cardRepository.deleteById(aLong);
+    }
+
+    @Override
     public List<CardDTO> getCardsBySpecification(Specification<Card> spec) {
         List<Card> cards = cardRepository.findAll(spec);
         if (!cards.isEmpty())

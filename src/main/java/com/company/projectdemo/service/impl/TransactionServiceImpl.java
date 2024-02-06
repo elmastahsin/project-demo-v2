@@ -152,6 +152,20 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public void delete(Long aLong) {
+        Transaction transaction = transactionRepository.findById(aLong).get();
+        Log log = new Log();
+        log.setTableName("transactions");
+        log.setOperation("delete");
+        log.setChangedColumn(null);
+        log.setChangedBy(transaction.getName());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        transactionRepository.deleteById(aLong);
+
+    }
+
+    @Override
     public List<TransactionDTO> findByFilter(String search) {
         List<Transaction> transactionList = transactionRepository.findByFilter(search);
 

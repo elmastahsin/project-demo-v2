@@ -104,6 +104,20 @@ public class UserServiceImpl implements UserService {
         return userList.stream().map(user -> mapper.convert(user, new UserDTO())).collect(Collectors.toList());
     }
 
+    @Override
+    public void delete(Long aLong) {
+        User user = userRepository.findById(aLong).get();
+        Map<String, Object> changedFields = EntityComparator.findChangedFields(user, new Object());
+        Log log = new Log();
+        log.setTableName("users");
+        log.setOperation("delete");
+        log.setChangedColumn(changedFields);
+        log.setChangedBy(user.getUsername());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        userRepository.delete(user);
+    }
+
     public List<UserDTO> getUsersBySpecification(Specification<User> spec) {
         List<User> users = userRepository.findAll(spec);
         if (!users.isEmpty())

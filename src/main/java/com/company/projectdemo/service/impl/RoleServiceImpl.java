@@ -94,6 +94,19 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    @Override
+    public void delete(Long aLong) {
+        Role role = roleRepository.findById(aLong).get();
+        Log log = new Log();
+        log.setTableName("roles");
+        log.setOperation("delete");
+        log.setChangedColumn(null);
+        log.setChangedBy(role.getName());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        roleRepository.deleteById(aLong);
+    }
+
     public List<RoleDTO> getRolesBySpecification(Specification<Role> spec) {
         List<Role> roles = roleRepository.findAll(spec);
         if (!roles.isEmpty())
