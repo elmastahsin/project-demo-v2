@@ -14,7 +14,6 @@ import com.company.projectdemo.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -55,13 +54,13 @@ public class TransactionServiceImpl implements TransactionService {
             return null;
         }
 
-
-//       Map<String,Object> changedFields = EntityComparator.findChangedFields(new Transaction(), transaction);
+        // Map<String,Object> changedFields = EntityComparator.findChangedFields(new
+        // Transaction(), transaction);
 
         Log log = new Log();
         log.setTableName("transactions");
         log.setOperation("insert");
-//        log.setChangedColumn("changedFields");
+        // log.setChangedColumn("changedFields");
         log.setChangedBy(transaction.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
@@ -72,26 +71,29 @@ public class TransactionServiceImpl implements TransactionService {
         return mapper.convert(transaction, new TransactionDTO());
     }
 
-    //    @Override
-//     public void update(TransactionDTO transactionDTO) {
-//
-//        Transaction transactionToUpdate = mapper.convert(transactionDTO, new Transaction());
-//        Transaction savedTransaction = transactionRepository.findById(transactionToUpdate.getId()).get();
-//
-//
-//
-//        Map<String, Object> changedFields = EntityComparator.findChangedFields(savedTransaction, transactionToUpdate);
-//
-//        Log log = new Log();
-//        log.setTableName("transactions");
-//        log.setOperation("update");
-//        log.setChangedColumn(changedFields);
-//        log.setChangedBy(savedTransaction.getName());
-//        log.setChangedAt(LocalDateTime.now());
-//        logService.save(log);
-//        transactionRepository.save(transactionToUpdate);
-//
-//    }
+    // @Override
+    // public void update(TransactionDTO transactionDTO) {
+    //
+    // Transaction transactionToUpdate = mapper.convert(transactionDTO, new
+    // Transaction());
+    // Transaction savedTransaction =
+    // transactionRepository.findById(transactionToUpdate.getId()).get();
+    //
+    //
+    //
+    // Map<String, Object> changedFields =
+    // EntityComparator.findChangedFields(savedTransaction, transactionToUpdate);
+    //
+    // Log log = new Log();
+    // log.setTableName("transactions");
+    // log.setOperation("update");
+    // log.setChangedColumn(changedFields);
+    // log.setChangedBy(savedTransaction.getName());
+    // log.setChangedAt(LocalDateTime.now());
+    // logService.save(log);
+    // transactionRepository.save(transactionToUpdate);
+    //
+    // }
     @Override
     public TransactionDTO update(TransactionDTO transactionDTO) {
 
@@ -104,9 +106,12 @@ public class TransactionServiceImpl implements TransactionService {
             transactionDTO.setCardno(null);
             return transactionDTO;
         }
-        if (cardDTO.getAmountpublicmoney() < transactionToUpdate.getAmountmoney()) {
-            transactionDTO.setNote("Not enough money to make transaction");
-            return transactionDTO;
+        if (savedTransaction.getAmountmoney() != transactionToUpdate.getAmountmoney()) {
+
+            if (cardDTO.getAmountpublicmoney()+savedTransaction.getAmountmoney() < transactionToUpdate.getAmountmoney()) {
+                transactionDTO.setNote("Not enough money to make transaction");
+                return transactionDTO;
+            }
         }
         Map<String, Object> changedFields = EntityComparator.findChangedFields(savedTransaction, transactionToUpdate);
 
@@ -121,10 +126,10 @@ public class TransactionServiceImpl implements TransactionService {
         return mapper.convert(transactionToUpdate, new TransactionDTO());
     }
 
-
     @Override
     public boolean isExist(TransactionDTO transactionDTO) {
-        return findByAll(transactionDTO).stream().filter(transactionDto1 -> transactionDto1.getAct().equals(transactionDTO.getAct())).count() > 0;
+        return findByAll(transactionDTO).stream()
+                .filter(transactionDto1 -> transactionDto1.getAct().equals(transactionDTO.getAct())).count() > 0;
     }
 
     @Override
@@ -135,40 +140,47 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDTO> findByAll(TransactionDTO transactionDTO) {
         Optional<Transaction> transaction = transactionRepository.findById(transactionDTO.getId());
-        return transaction.stream().map(entity -> mapper.convert(entity, new TransactionDTO())).collect(Collectors.toList());
+        return transaction.stream().map(entity -> mapper.convert(entity, new TransactionDTO()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> listAll() {
         List<Transaction> transactionList = transactionRepository.findAll();
-        return transactionList.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
+        return transactionList.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> findByFilter(String search) {
         List<Transaction> transactionList = transactionRepository.findByFilter(search);
 
-        return transactionList.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
+        return transactionList.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> getTransactionsBySpecification(Specification<Transaction> spec) {
         List<Transaction> transactions = transactionRepository.findAll(spec);
         if (!transactions.isEmpty())
-            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
-        else return Collections.emptyList();
+            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO()))
+                    .collect(Collectors.toList());
+        else
+            return Collections.emptyList();
 
     }
 
     @Override
     public List<TransactionDTO> findByCardNo(Long cardno) {
         Card card = cardRepository.findByCardno(cardno);
-        if (card == null) return Collections.emptyList();
+        if (card == null)
+            return Collections.emptyList();
         List<Transaction> transactions = transactionRepository.findByCardno(cardno);
         if (!transactions.isEmpty())
-            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO())).collect(Collectors.toList());
-        else return Collections.emptyList();
+            return transactions.stream().map(transaction -> mapper.convert(transaction, new TransactionDTO()))
+                    .collect(Collectors.toList());
+        else
+            return Collections.emptyList();
     }
-
 
 }

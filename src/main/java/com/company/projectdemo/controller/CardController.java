@@ -58,7 +58,7 @@ public class CardController {
 
     @GetMapping("/filter")
     public ResponseEntity<ResponseWrapper> getCards(
-            @RequestParam Map<String, String> allParams) {
+            @RequestParam Map<String, Object> allParams) {
         //all entries should be trimmed
 
         List<FilterCriteria> criteriaList = allParams.entrySet().stream()
