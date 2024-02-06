@@ -39,6 +39,8 @@ public class EntityComparator {
         if (changes.isEmpty()) {
             changes.put("All columns", "No updates");
         }
+
+
         return changes;
     }
 
