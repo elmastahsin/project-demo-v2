@@ -7,9 +7,7 @@ import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.repository.filter.FilterCriteria;
 import com.company.projectdemo.repository.filter.GenericSpecification;
 import com.company.projectdemo.service.CardService;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CardController {
     private final CardService cardService;
-
 
 
     @PostMapping

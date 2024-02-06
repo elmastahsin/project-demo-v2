@@ -6,12 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class CardDTO {
     private Long cardno;
     private Double amountfoodmoney;
