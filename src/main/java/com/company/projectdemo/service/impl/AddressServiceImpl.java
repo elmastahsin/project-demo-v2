@@ -13,20 +13,14 @@ public class AddressServiceImpl implements AddressService {
         throw new IllegalStateException("Not Implemented");
     }
 
-
-
-
-
     @Override
     public List<AddressDTO> findByAll(AddressDTO addressDto) {
         throw new IllegalStateException("Not Implemented");
     }
 
-
     @Override
     public AddressDTO save(AddressDTO addressDto) {
         throw new IllegalStateException("Not Implemented");
-
     }
 
     @Override
@@ -43,6 +37,4 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressDTO> listAll() {
         return null;
     }
-
-
 }
