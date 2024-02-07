@@ -1,8 +1,10 @@
 package com.company.projectdemo.service.impl;
 
 import com.company.projectdemo.dto.CardDTO;
+import com.company.projectdemo.dto.TransactionDTO;
 import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.entity.Log;
+import com.company.projectdemo.entity.Transaction;
 import com.company.projectdemo.mapper.MapperUtil;
 import com.company.projectdemo.repository.CardRepository;
 import com.company.projectdemo.service.CardService;
@@ -25,10 +27,6 @@ public class CardServiceImpl implements CardService {
     private final MapperUtil mapper;
     private final LogService logService;
     private final CardRepository cardRepository;
-    
-
-
-
 
     @Override
     public CardDTO findById(Long aLong) {
@@ -100,12 +98,26 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
+    public void delete(Long aLong) {
+        Card card = cardRepository.findById(aLong).get();
+        Log log = new Log();
+        log.setTableName("cards");
+        log.setOperation("delete");
+        log.setChangedColumn(null);
+        log.setChangedBy(card.getName());
+        log.setChangedAt(LocalDateTime.now());
+        logService.save(log);
+        cardRepository.deleteById(aLong);
+    }
+
+    @Override
     public List<CardDTO> getCardsBySpecification(Specification<Card> spec) {
         List<Card> cards = cardRepository.findAll(spec);
         if (!cards.isEmpty())
-            return cards.stream().map(card -> mapper.convert(card, new CardDTO())).collect(Collectors.toList());
-        else return Collections.emptyList();
-
+            return cards.stream().map(card -> mapper.convert(card, new CardDTO()))
+                    .collect(Collectors.toList());
+        else
+            return Collections.emptyList();
     }
 
 

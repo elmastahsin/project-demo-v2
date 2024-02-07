@@ -12,22 +12,34 @@ public class AddressServiceImpl implements AddressService {
     public AddressDTO findById(Long aLong) {
         throw new IllegalStateException("Not Implemented");
     }
+
     @Override
     public List<AddressDTO> findByAll(AddressDTO addressDto) {
         throw new IllegalStateException("Not Implemented");
     }
+
     @Override
-    public AddressDTO save(AddressDTO addressDto) {throw new IllegalStateException("Not Implemented");}
+    public AddressDTO save(AddressDTO addressDto) {
+        throw new IllegalStateException("Not Implemented");
+    }
+
     @Override
     public boolean isExist(AddressDTO addressDto) {
         throw new IllegalStateException("Not Implemented");
     }
+
     @Override
     public List<AddressDTO> findByFilter(String search) {
         return null;
     }
+
     @Override
     public List<AddressDTO> listAll() {
         return null;
+    }
+
+    @Override
+    public void delete(Long aLong) {
+        throw new IllegalStateException("Not Implemented");
     }
 }

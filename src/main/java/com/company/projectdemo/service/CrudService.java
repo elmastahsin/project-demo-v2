@@ -20,4 +20,6 @@ public interface CrudService<T, ID> {
 
     List<T> listAll();
 
+//    void delete(T t);
+    void delete(ID id);
 }

@@ -20,7 +20,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Entity
 @Table(name = "logs")
-@Where(clause = "is_deleted=false")
+//@Where(clause = "is_deleted=false")
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
 public class Log {
 
