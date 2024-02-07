@@ -41,7 +41,8 @@ public class CardController {
             headers = {@Header(name = "Connection ", description = "keep-alive")})
     public ResponseEntity<ResponseWrapper> createCard(@RequestBody CardDTO card) {
         CardDTO cardDTO = cardService.save(card);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("card successfully created", cardDTO, HttpStatus.CREATED));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseWrapper("card successfully created", cardDTO, HttpStatus.CREATED));
     }
 
 
@@ -108,12 +109,12 @@ public class CardController {
             @ApiResponse(responseCode = "404", description = "Bad Request", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
     })
-    public ResponseEntity<ResponseWrapper> getCards(
+    public ResponseEntity<ResponseWrapper> getFilterCards(
             @RequestParam Map<String, String> allParams) {
         //all entries should be trimmed
 
         List<FilterCriteria> criteriaList = allParams.entrySet().stream()
-                .map(entry -> new FilterCriteria(entry.getKey(), "equals", entry.getValue()))
+                .map(entry -> new FilterCriteria(entry.getKey().trim(), "equals", entry.getValue().trim()))
                 .collect(Collectors.toList());
 
         Specification<Card> spec = new GenericSpecification<>(criteriaList);
