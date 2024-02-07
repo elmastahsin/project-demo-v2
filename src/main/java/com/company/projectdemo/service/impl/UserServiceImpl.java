@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long aLong) {
         User user = userRepository.findById(aLong).get();
-        Map<String, Object> changedFields = EntityComparator.findChangedFields(user, new Object());
+        Map<String, Object> changedFields = EntityComparator.findChangedFields(user, new User());
         Log log = new Log();
         log.setTableName("users");
         log.setOperation("delete");
