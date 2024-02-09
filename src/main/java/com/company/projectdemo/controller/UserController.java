@@ -114,7 +114,7 @@ public class UserController {
         //all entries should be trimmed
 
         List<FilterCriteria> criteriaList = allParams.entrySet().stream()
-                .map(entry -> new FilterCriteria(entry.getKey(), "like", entry.getValue()))
+                .map(entry -> new FilterCriteria(entry.getKey(), "equals", entry.getValue()))
                 .collect(Collectors.toList());
 
         Specification<User> spec = new GenericSpecification<>(criteriaList);
