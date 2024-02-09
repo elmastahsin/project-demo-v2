@@ -11,7 +11,7 @@ public interface CrudService<T, ID> {
 
     List<T> findByAll(T t);
 
-    T  save(T t);
+    T save(T t);
 
 
     boolean isExist(T t);

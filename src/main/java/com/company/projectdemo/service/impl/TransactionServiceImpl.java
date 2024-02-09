@@ -64,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
         log.setChangedBy(transaction.getName());
         log.setChangedAt(LocalDateTime.now());
         logService.save(log);
-        transaction.setAct(transactionDTO.getAct() + "Database");
+//        transaction.setAct(transactionDTO.getAct() + "Database");
         transactionRepository.save(transaction);
         cardDTO.setAmountpublicmoney(cardDTO.getAmountpublicmoney() - transaction.getAmountmoney());
         if (cardDTO.getAmountpublicmoney() < 0.1) {

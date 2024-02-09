@@ -49,7 +49,7 @@ public class RoleServiceImpl implements RoleService {
 //        log.setChangedColumn(changedFields);
         log.setChangedBy(roleDTO.getRank());
         log.setChangedAt(LocalDateTime.now());
-        role.setRank(roleDTO.getRank() + "DATABASE");
+//        role.setRank(roleDTO.getRank() + "DATABASE");
         roleRepository.save(role);
         logService.save(log);
         return mapper.convert(role, new RoleDTO());
