@@ -14,6 +14,7 @@ import com.company.projectdemo.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -68,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
         cardDTO.setAmountpublicmoney(cardDTO.getAmountpublicmoney() - transaction.getAmountmoney());
         if (cardDTO.getAmountpublicmoney() < 0.1) {
-          cardDTO.setAmountpublicmoney(0.0);
+            cardDTO.setAmountpublicmoney(0.0);
         }
         cardService.update(cardDTO);
         return mapper.convert(transaction, new TransactionDTO());
@@ -89,7 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         if (savedTransaction.getAmountmoney() != transactionToUpdate.getAmountmoney()) {
 
-            if (cardDTO.getAmountpublicmoney()+savedTransaction.getAmountmoney() < transactionToUpdate.getAmountmoney()) {
+            if (cardDTO.getAmountpublicmoney() + savedTransaction.getAmountmoney() < transactionToUpdate.getAmountmoney()) {
                 transactionDTO.setNote("Not enough money to make transaction");
                 return transactionDTO;
             }

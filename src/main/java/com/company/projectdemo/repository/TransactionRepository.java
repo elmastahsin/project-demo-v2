@@ -1,6 +1,5 @@
 package com.company.projectdemo.repository;
 
-import com.company.projectdemo.entity.Card;
 import com.company.projectdemo.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

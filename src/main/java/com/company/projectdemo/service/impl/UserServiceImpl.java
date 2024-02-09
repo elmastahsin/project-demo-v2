@@ -1,6 +1,5 @@
 package com.company.projectdemo.service.impl;
 
-import com.company.projectdemo.dto.CardDTO;
 import com.company.projectdemo.dto.UserDTO;
 import com.company.projectdemo.entity.Log;
 import com.company.projectdemo.entity.User;

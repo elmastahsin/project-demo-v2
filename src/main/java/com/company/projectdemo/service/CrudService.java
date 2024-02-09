@@ -1,7 +1,5 @@
 package com.company.projectdemo.service;
 
-import com.company.projectdemo.dto.TransactionDTO;
-
 import java.util.List;
 
 public interface CrudService<T, ID> {
@@ -20,6 +18,6 @@ public interface CrudService<T, ID> {
 
     List<T> listAll();
 
-//    void delete(T t);
+    //    void delete(T t);
     void delete(ID id);
 }

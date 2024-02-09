@@ -1,9 +1,6 @@
 package com.company.projectdemo.service.impl;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.AccessibleObject.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +19,13 @@ public class EntityComparator {
             field.setAccessible(true); // to access private fields
             try {
                 if (field.get(oldObject) == null || field.get(newObject) == null) {
-                    if (field.get(oldObject)==null) changes.put(field.getName(), "null");
+                    if (field.get(oldObject) == null) changes.put(field.getName(), "null");
                     continue;
                 }
                 String oldValue = field.get(oldObject).toString();
                 String newValue = field.get(newObject).toString();
 
-                if (newValue != null && !(oldValue.equals(newValue))){
+                if (newValue != null && !(oldValue.equals(newValue))) {
                     changes.put(field.getName(), oldValue);
                 }
             } catch (IllegalAccessException e) {

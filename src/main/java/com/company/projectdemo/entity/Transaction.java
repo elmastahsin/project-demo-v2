@@ -1,13 +1,11 @@
 package com.company.projectdemo.entity;
 
-import com.company.projectdemo.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Getter
@@ -20,7 +18,7 @@ public class Transaction extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @ManyToOne
+    //    @ManyToOne
 //    @JoinColumn(name = "card_no", referencedColumnName = "cardno")
 //    private Card card;
     private Long cardno;
