@@ -15,4 +15,6 @@ public class FilterCriteria {
     private Object value;
 
     // Constructor, getters ve setters
+
+    //subfilterliste
 }
