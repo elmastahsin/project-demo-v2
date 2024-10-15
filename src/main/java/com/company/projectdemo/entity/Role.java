@@ -23,4 +23,5 @@ public class Role extends BaseEntity {
     private String rank;
 
 
+
 }
